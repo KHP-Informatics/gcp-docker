@@ -32,9 +32,14 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 USER gcp
 ENV HOME /home/gcp
 
-RUN cd /home/gcp && svn ck http://svn.code.sf.net/p/gate/code/gcp/trunk
-#RUN ant distro
-
-
 WORKDIR '/home/gcp'
+
+ENV JAVA_TOOL_OPTIONS '-Dfile.encoding=UTF8'
+RUN svn co http://svn.code.sf.net/p/gate/code/gcp/trunk gcp-src
+
+# bugfix hack
+RUN sed -i '/<\/dependencies>/i\ \ \ \ <dependency org="poi" name="poi" rev="2.5.1-final-20040804"\/>\n' gcp-src/build/ivy.xml
+RUN cd gcp-src && ant distro
+
+
 #ENTRYPOINT ["grails", "prod", "run-app"]
