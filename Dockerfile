@@ -41,5 +41,20 @@ RUN svn co http://svn.code.sf.net/p/gate/code/gcp/trunk gcp-src
 RUN sed -i '/<\/dependencies>/i\ \ \ \ <dependency org="poi" name="poi" rev="2.5.1-final-20040804"\/>\n' gcp-src/build/ivy.xml
 RUN cd gcp-src && ant distro
 
+# Expect the data to be in /gcpdata
+# default heap size is 12G change with -m option
+# -t number of threads to use. 
+
+#java -jar gcp-cli.jar  -d /gcpdata
+
 
 #ENTRYPOINT ["grails", "prod", "run-app"]
+
+
+
+
+
+
+
+
+
