@@ -29,6 +29,9 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 # GCP
 #######
 
+RUN mkdir /gcpdata ; chown -R gcp:gcp /gcpdata
+VOLUME /gcpdata
+
 USER gcp
 ENV HOME /home/gcp
 
@@ -47,8 +50,6 @@ RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.1/gate-8.1-bui
 
 ENV GATE_HOME '/home/gcp/gate'
 
-RUN mkdir /gcpdata ; chown -R gcp:gcp /gcpdata
-VOLUME /gcpdata
 
 # Expect the data to be in /gcpdata
 # default heap size is 12G change with -m option
