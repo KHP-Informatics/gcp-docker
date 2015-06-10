@@ -7,7 +7,8 @@ docker build -t cassj/gcp .
 
 When you run the container, mount a directory on the host that contains your config & data. You may wish to increase available java memory etc.
 
-docker run --rm -it -v /tmp/gcpdata:/gcpdata  -e 'JAVA_OPTS=-Xmx8G' cassj/gcp 
+#run from teh cmdline to test
+docker run --rm -it -v /path/to/gcpdata:/gcpdata  -e 'JAVA_OPTS=-Xmx8G' --entrypoint=/bin/bash cassj/gcp 
 
 
 
