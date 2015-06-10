@@ -47,8 +47,8 @@ RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.1/gate-8.1-bui
 
 ENV GATE_HOME '/home/gcp/gate'
 
+RUN mkdir /gcpdata ; chown -R gcp:gcp /gcpdata
 VOLUME /gcpdata
-RUN chown -R gcp:gcp /gcpdata
 
 # Expect the data to be in /gcpdata
 # default heap size is 12G change with -m option
@@ -61,10 +61,5 @@ ENV PATH "$PATH:/home/gcp/gcp-src:/home/gcp/gate/bin"
 
 ENTRYPOINT ["gcp-direct.sh", "-b", "/gcpdata"]
 CMD ['']
-
-
-
-
-
 
 
