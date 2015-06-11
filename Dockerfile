@@ -5,6 +5,7 @@ MAINTAINER Cass Johnston <cassjohnston@gmail.com>
 #######
 # Setup a user for this process
 #######
+
 RUN groupadd -r gcp 
 RUN useradd -ms /bin/bash -g gcp gcp
 
@@ -55,12 +56,8 @@ ENV GATE_HOME '/home/gcp/gate'
 # default heap size is 12G change with -m option
 # -t number of threads to use. 
 
-#java -jar gcp-cli.jar  -d /gcpdata
-
 ENV PATH "$PATH:/home/gcp/gcp-src:/home/gcp/gate/bin"
 
-
-ENTRYPOINT ["gcp-direct.sh", "-b", "/gcpdata"]
-CMD ['']
+ENTRYPOINT ["gcp-direct.sh"]
 
 
