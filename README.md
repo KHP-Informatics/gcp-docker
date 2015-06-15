@@ -10,6 +10,10 @@ has to be writeable by everyone (assuming your container wants to write to it). 
 
    mkdir /tmp/gcpdata
 
+If you have selinux enforcing on the host, make sure you 
+
+   chcon -Rt svirt_sandbox_file_t /tmp/gcpdata
+
 put your config files etc in /tmp/gcpdata
 
 run something like:
