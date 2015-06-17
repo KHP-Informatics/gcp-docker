@@ -39,7 +39,9 @@ RUN cd gcp-src && ant distro
 
 ENV GCP_HOME '/opt/gcp/gcp-src'
 
-RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.1/gate-8.1-build5169-ALL.zip?r=&ts=1433933712&use_mirror=kent' >  gate-8.1-build5169-ALL.zip && unzip gate-8.1-build5169-ALL.zip && mv gate-8.1-build5169-ALL gate && rm gate-8.1-build5169-ALL.zip
+# Looks like we're going to have to try gate 8. 8.1 causes problems for Format_FastInfoSet plugin.
+#RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.1/gate-8.1-build5169-ALL.zip?r=&ts=1433933712&use_mirror=kent' >  gate-8.1-build5169-ALL.zip && unzip gate-8.1-build5169-ALL.zip && mv gate-8.1-build5169-ALL gate && rm gate-8.1-build5169-ALL.zip
+RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.0/gate-8.0-build4825-ALL.zip?r=&ts=1434579935&use_mirror=heanet' > gate-8.0-build4825-ALL.zip && unzip gate-8.0-build4825-ALL.zip && mv gate-8.0-build4825-ALL gate && rm gate-8.0-build4825-ALL.zip
 
 ENV GATE_HOME '/opt/gcp/gate'
 
