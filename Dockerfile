@@ -47,6 +47,10 @@ ENV GATE_HOME '/opt/gcp/gate'
 
 ENV PATH "$PATH:$GCP_HOME:$GATE_HOME/bin"
 
+# bit of a fudge so we can add extra jars to /gcpdata/lib if necessary (eg. I need the jdbc sqlserver driver)
+ENV CLASSPATH /gcpdata/lib/*
+RUN perl -i -pe 's/-cp\ \./-cp\ "\$CLASSPATH":\./' /opt/gcp/gcp-2.5-SNAPSHOT/gcp-direct.sh 
+
 ENTRYPOINT ["gcp-direct.sh"]
 
 
