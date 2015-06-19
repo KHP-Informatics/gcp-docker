@@ -32,8 +32,9 @@ WORKDIR '/opt/gcp'
 ENV JAVA_TOOL_OPTIONS '-Dfile.encoding=UTF8'
 
 # having problems with the svn trunk and gate 8. Requires 8.1, with which the khresmoi pipeline doesn't work. 
-RUN curl -L 'http://downloads.sourceforge.net/project/gate/gcp/gcp-dist-2.5.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fgate%2Ffiles%2Fgcp%2F&ts=1434706552&use_mirror=heanet' > gcp-dist-2.5.zip && unzip gcp-dist-2.5.zip
-ENV GCP_HOME '/opt/gcp/gcp-2.5'
+ADD gcp-dist-2.5-SNAPSHOT.zip /opt/gcp
+RUN unzip gcp-dist-2.5-SNAPSHOT.zip
+ENV GCP_HOME '/opt/gcp/gcp-2.5-SNAPSHOT'
 
 #RUN svn co http://svn.code.sf.net/p/gate/code/gcp/trunk gcp-src
 ## there's an issue with one of the maven central checksums. Temporarily turn off checking. 
@@ -49,11 +50,14 @@ RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.0/gate-8.0-bui
 
 ENV GATE_HOME '/opt/gcp/gate'
 
+# GCP snapshot doesn't honour GATE_HOME. 
+RUN rm -rf /opt/gcp/gcp-2.5/gate-home && ln -s $GATE_HOME /opt/gcp/gcp-2.5/gate-home
+
 # Expect the data to be in /gcpdata
 # default heap size is 12G change with -m option
 # -t number of threads to use. 
 
-ENV PATH "$PATH:/opt/gcp/gcp-src:/opt/gcp/gate/bin"
+ENV PATH "$PATH:$GCP_HOME:$GATE_HOME/bin"
 
 ENTRYPOINT ["gcp-direct.sh"]
 
