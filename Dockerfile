@@ -41,9 +41,6 @@ RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.0/gate-8.0-bui
 
 ENV GATE_HOME '/opt/gcp/gate'
 
-# GCP snapshot doesn't honour GATE_HOME. 
-RUN rm -rf /opt/gcp/gcp-2.5/gate-home && ln -s $GATE_HOME /opt/gcp/gcp-2.5/gate-home
-
 # Expect the data to be in /gcpdata
 # default heap size is 12G change with -m option
 # -t number of threads to use. 
