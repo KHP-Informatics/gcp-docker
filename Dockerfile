@@ -30,14 +30,18 @@ RUN mkdir /opt/gcp
 WORKDIR '/opt/gcp'
 
 ENV JAVA_TOOL_OPTIONS '-Dfile.encoding=UTF8'
-RUN svn co http://svn.code.sf.net/p/gate/code/gcp/trunk gcp-src
 
-# there's an issue with one of the maven central checksums. Temporarily turn off checking. 
-# Remove this when issue is resolved...
-RUN sed -i '/<ivysettings>/a \ \ <property name="ivy.checksums" value="" \/>' gcp-src/build/ivysettings.xml
-RUN cd gcp-src && ant distro
+# having problems with the svn trunk and gate 8. Requires 8.1, with which the khresmoi pipeline doesn't work. 
+RUN curl -L 'http://downloads.sourceforge.net/project/gate/gcp/gcp-dist-2.5.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fgate%2Ffiles%2Fgcp%2F&ts=1434706552&use_mirror=heanet' > gcp-dist-2.5.zip && unzip gcp-dist-2.5.zip
+ENV GCP_HOME '/opt/gcp/gcp-2.5'
 
-ENV GCP_HOME '/opt/gcp/gcp-src'
+#RUN svn co http://svn.code.sf.net/p/gate/code/gcp/trunk gcp-src
+## there's an issue with one of the maven central checksums. Temporarily turn off checking. 
+## Remove this when issue is resolved...
+#RUN sed -i '/<ivysettings>/a \ \ <property name="ivy.checksums" value="" \/>' gcp-src/build/ivysettings.xml
+#RUN cd gcp-src && ant distro
+#
+#ENV GCP_HOME '/opt/gcp/gcp-src'
 
 # Looks like we're going to have to try gate 8. 8.1 causes problems for Format_FastInfoSet plugin.
 #RUN curl -L 'http://downloads.sourceforge.net/project/gate/gate/8.1/gate-8.1-build5169-ALL.zip?r=&ts=1433933712&use_mirror=kent' >  gate-8.1-build5169-ALL.zip && unzip gate-8.1-build5169-ALL.zip && mv gate-8.1-build5169-ALL gate && rm gate-8.1-build5169-ALL.zip
