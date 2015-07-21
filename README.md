@@ -27,7 +27,7 @@ I've assumed in the container that the user is in a group with GID 67890.
 
 You will need to create this group on your host and add any users who want to use the container to it.
 
-  sudo addgroup -g67890 khresmoi
+  sudo groupadd -g67890 khresmoi
 
 And ensure that group owns the data directory:
 

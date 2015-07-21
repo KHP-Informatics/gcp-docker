@@ -26,14 +26,15 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 # Create a group with a specified GID. 
 # You should also create this group on the host and add any users who will be using this container.
 RUN groupadd -g67890 khresmoi 
-RUN useradd -s /bin/bash gcp
+RUN useradd -ms /bin/bash gcp
 RUN usermod -G khresmoi gcp
 
-
+# Create a mountpoint for the host volume
 RUN mkdir /gcpdata 
 RUN chown gcp:khresmoi /gcpdata
 VOLUME /gcpdata
 
+# Install GCP&GATE to /opt/gcp
 RUN mkdir /opt/gcp
 WORKDIR '/opt/gcp'
 
@@ -49,17 +50,17 @@ RUN curl -L 'http://ufpr.dl.sourceforge.net/project/gate/gate/8.0/gate-8.0-build
 
 ENV GATE_HOME '/opt/gcp/gate'
 
-# Expect the data to be in /gcpdata
-# default heap size is 12G change with -m option
-# -t number of threads to use. 
-
 ENV PATH "$PATH:$GCP_HOME:$GATE_HOME/bin"
 
 # bit of a fudge so we can add extra jars to /gcpdata/lib if necessary (eg. I need the jdbc sqlserver driver)
 ENV CLASSPATH /gcpdata/lib/*
 RUN perl -i -pe 's/-cp\ \./-cp\ "\$CLASSPATH":\./' /opt/gcp/gcp-2.5-SNAPSHOT/gcp-direct.sh 
 
+# Set the user so we don't run as root
 USER gcp
+ENV HOME /home/gcp
+WORKDIR /home/gcp
+
 ENTRYPOINT ["gcp-direct.sh"]
 
 
