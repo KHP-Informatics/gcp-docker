@@ -32,8 +32,8 @@ RUN usermod -G khresmoi gcp
 # Create a mountpoint for the host volume
 RUN mkdir /gcpdata 
 RUN chown gcp:khresmoi /gcpdata
-RUN chmod g+ws /gcpdata
 VOLUME /gcpdata
+RUN chmod g+ws /gcpdata
 
 # Install GCP&GATE to /opt/gcp
 RUN mkdir /opt/gcp
