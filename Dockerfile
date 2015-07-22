@@ -23,11 +23,10 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 # GCP
 #######
 
-# Create a group with a specified GID. 
+# Create a user and roup with a specified U/GID. 
 # You should also create this group on the host and add any users who will be using this container.
 RUN groupadd -g67890 khresmoi 
-RUN useradd -ms /bin/bash gcp
-RUN usermod -G khresmoi gcp
+RUN useradd -u67890 -g khresmoi -ms /bin/bash gcp
 
 # Create a mountpoint for the host volume
 RUN mkdir /gcpdata 
