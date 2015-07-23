@@ -25,14 +25,16 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 
 # Create a user and roup with a specified U/GID. 
 # You should also create this group on the host and add any users who will be using this container.
-RUN groupadd -g67890 khresmoi 
-RUN useradd -u67890 -g khresmoi -ms /bin/bash gcp
+RUN groupadd -g67890 gcp 
+RUN useradd -u67890 -g gcp -ms /bin/bash gcp
 
 # Create a mountpoint for the host volume
 RUN mkdir /gcpdata 
-RUN chown gcp:khresmoi /gcpdata
+RUN chown gcp:gcp /gcpdata
 VOLUME /gcpdata
 RUN chmod g+ws /gcpdata
+RUN setfacl -Rdm g:gcp:rwx /gcpdata
+
 
 # Install GCP&GATE to /opt/gcp
 RUN mkdir /opt/gcp
